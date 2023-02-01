@@ -1,0 +1,252 @@
+{% extends 'baseloginapp.html' %}
+{% load static %}
+{% block contenido %}
+    <div class="page-header align-items-start min-height-300 m-3 border-radius-xl bg-gray-200"
+         style="background-image: url({% static 'img/dept-2.jpg' %}); background-size: cover; background-position:center;">
+        <span class="mask bg-gradient-dark opacity-4"></span>
+    </div>
+    <div class="container mb-4">
+        <div class="row mt-lg-n12 mt-md-n12 mt-n11 justify-content-center">
+            <div class=" col-md-7 mx-auto">
+                <div class="card mt-8">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1 text-center py-4">
+                            <h4 class="font-weight-bolder text-white mt-1">Registro de nuevo usuario</h4>
+                            <p class="mb-1 text-white text-sm">Ingresa tu información para crear tu cuenta ya!</p>
+                        </div>
+                    </div>
+                    <div class="card-body pb-3">
+                        <form method="POST" id="formularioenviar">
+                            {% csrf_token %}
+                            <input type="hidden" name="peticion" value="registrarpaciente">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group input-group-static my-3  ">
+                                        {{ form.nombre1.label_tag }} {{ form.nombre1 }}{{ form.nombre1.errors }}
+                                        {% if form.nombre1.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.nombre1.help_text|safe }}</small> {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="input-group input-group-static my-3  ">
+                                        {{ form.nombre2.label_tag }} {{ form.nombre2 }}{{ form.nombre2.errors }}
+                                        {% if form.nombre2.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.nombre2.help_text|safe }}</small> {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group input-group-static my-3  ">
+                                        {{ form.apellido1.label_tag }} {{ form.apellido1 }}{{ form.apellido1.errors }}
+                                        {% if form.apellido1.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.apellido1.help_text|safe }}</small> {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="input-group input-group-static my-3  ">
+                                        {{ form.apellido2.label_tag }} {{ form.apellido2 }}{{ form.apellido2.errors }}
+                                        {% if form.apellido2.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.apellido2.help_text|safe }}</small> {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group input-group-static my-3  ">
+                                        {{ form.username.label_tag }} {{ form.username }}{{ form.username.errors }}
+                                        {% if form.username.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.username.help_text|safe }}</small> {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group input-group-static my-3  ">
+                                        {{ form.email.label_tag }} {{ form.email }}{{ form.email.errors }}
+                                        {% if form.email.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.email.help_text|safe }}</small> {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                  <div class="input-group input-group-static my-3  ">
+                                        {{ form.cedula.label_tag }}
+                                        {{ form.cedula }}{{ form.cedula.errors }}
+                                        {% if form.cedula.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.genero.help_text|safe }}</small> {% endif %}
+                                    </div>
+                                    <div class="input-group input-group-static my-3  ">
+                                        {{ form.genero.label_tag }}
+                                        {{ form.genero }}{{ form.genero.errors }}
+                                        {% if form.genero.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.genero.help_text|safe }}</small> {% endif %}
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group input-group-static my-3  ">
+                                            {{ form.telefono_movil.label_tag }}
+                                            {{ form.telefono_movil }}{{ form.telefono_movil.errors }}
+                                            {% if form.telefono_movil.help_text %}
+                                                <small id="help"
+                                                       class="form-text text-muted">{{ form.telefono_movil.help_text|safe }}</small> {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group input-group-static my-3  ">
+                                            {{ form.telefono_convencional.label_tag }}
+                                            {{ form.telefono_convencional }}{{ form.telefono_convencional.errors }}
+                                            {% if form.telefono_convencional.help_text %}
+                                                <small id="help"
+                                                       class="form-text text-muted">{{ form.telefono_convencional.help_text|safe }}</small> {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+
+
+                                <div class="input-group input-group-static my-3  ">
+                                        {{ form.password1.label_tag }} {{ form.password1 }}{{ form.password1.errors }}
+                                        {% if form.password1.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.password1.help_text|safe }}</small> {% endif %}
+                                    </div>
+                                    <div class="input-group input-group-static my-3  ">
+                                        {{ form.password2.label_tag }} {{ form.password2 }}{{ form.password2.errors }}
+                                        {% if form.password2.help_text %}
+                                            <small id="help"
+                                                   class="form-text text-muted">{{ form.password2.help_text|safe }}</small> {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button id="enviar_registro_usuario" type="submit"
+                                        class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Crear cuenta
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                        <p class="mb-4 text-sm mx-auto">
+                            Ya tienes una cuenta?
+                            <a href="{% url 'login_usuario' %}" class="text-success text-gradient font-weight-bold">Inicia
+                                sesión.</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+
+        var mask = IMask(document.getElementById('id_telefono_movil'), { mask: '00 000 0000'});
+        var mask = IMask(document.getElementById('id_telefono_convencional'), { mask: '000 000 0000'});
+    </script>
+
+
+     <script>
+        var opciones = {
+            strict: true,              // va a validar siempre, aunque la cantidad de caracteres no sea 10 ni 13
+            events: "change",          // evento que va a disparar la validación
+            the_classes: "invalid",    // clase que se va a agregar al nodo en el que se realiza la validación
+            onValid: function () {
+
+                if ($("#id_cedula").val().length == 10) {
+                    $.ajax({
+                        type: "GET",
+                        url: {{request.path}},
+                        dataType: "json",
+                        data: {
+                            'peticion': 'validar_cedula',
+                            'cedula': $("#id_cedula").val(),
+                        },
+                        success: function (data) {
+                            if (data.respuesta === true) {
+                                mensajeDanger(data.mensaje)
+                            }
+                        },
+                        error: function () {
+                            alert("Error de conexión.");
+                        },
+
+                    });
+                }
+
+            },   // callback cuando la cédula es correcta.
+            onInvalid: function () {
+                if ($("#id_cedula").val().length == 10) {
+                    mensajeWarning("cédula es incorrecta.");
+
+                }
+
+            }  // callback cuando la cédula es incorrecta.
+        };
+
+        $("#id_cedula").validarCedulaEC(opciones);
+
+    </script>
+
+    <script>
+
+        function mensajeSuccess(mensaje) {
+            Swal.fire('', mensaje, 'success')
+        }
+
+        function mensajeWarning(mensaje) {
+            Swal.fire('', mensaje, 'warning')
+        }
+
+        function mensajeDanger(mensaje) {
+            Swal.fire('', mensaje, 'error')
+        }
+
+        $(function () {
+
+            $('#id_email').on('blur', function () {
+                email = $("#id_email").val()
+                if (email.length > 0) {
+
+
+                    $.ajax({
+                        type: "GET",
+                        url: {{request.path}},
+                        dataType: "json",
+                        data: {
+                            'peticion': 'validar_email',
+                            'email': email,
+                        },
+                        success: function (data) {
+                            if (data.respuesta === true) {
+                                mensajeDanger(data.mensaje)
+                            } else {
+
+                            }
+                        },
+                        error: function () {
+                            alert("Error de conexión.");
+                        },
+
+                    });
+                }
+            });
+        });
+    </script>
+
+
+{% endblock %}

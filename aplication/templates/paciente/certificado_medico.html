@@ -1,0 +1,145 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="author" content=""/>
+    <style>
+        @page {
+            background-image: url('~/background_certificado.jpeg');
+            size: a4;
+            @frame header_frame {
+            -pdf-frame-content: header_content;
+            left: 0.5cm;
+            right: 0.5cm;
+            top: 0.5cm;
+            height: 5cm;
+        }
+        @frame content_frame {
+        left: 1cm; right: 0.5cm; top: 5cm; bottom:2cm;
+        }
+        @frame footer_frame {
+        -pdf-frame-content:footer_content;
+        left: 1cm; height: 1cm; right:0.5cm; bottom:0.5cm;
+        }
+        }
+
+        table {
+            border: 1px solid #666666;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            border: 1px solid #666666;
+            font-size: 12px;
+            line-height: 5px;
+            vertical-align: top;
+            padding: 3px;
+            font-family: "Arial";
+        }
+
+        h5 {
+            font-family: "Arial";
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="header_content" style="float: left;margin-bottom: -200px">
+<img src="./media/background_certificado.jpeg" width="650px">
+    {#    <table style="border: 0; width: 100%;padding-bottom: 0px">#}
+{#        <tr>#}
+{#            <td style="border: 0" ></td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td style="border: 0" ><img name='logo' src="media/encabezado_certificado.png"></td>#}
+{#        </tr>#}
+{##}
+{#        <tr>#}
+{#            <td style="border: 0; text-align: center; font-size: 16px;padding-left: -16px;padding-right: 50px"#}
+{#                colspan="3"><strong></strong></td>#}
+{#            <td style="border: 0; text-align: right" colspan="5"><h5>Naranjito, 11 de Octubre del 2022</h5></td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td style="border: 0; text-align: center" colspan="5"><h5></h5></td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td style="border: 0; text-align: center" colspan="5"><h5></h5></td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td style="border: 0; text-align: center" colspan="5"><h5></h5></td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td style="border: 0; text-align: center" colspan="5"><h5></h5></td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td style="border: 0; text-align: center;font-size: 19px;margin-left: 15px" colspan="8"><h5>CERTIFICADO#}
+{#                MÉDICO</h5></td>#}
+{#        </tr>#}
+{#    </table>#}
+</div>
+{% load humanize %}
+<div>
+    <table style="border: 0; width: 100%;padding-bottom: 0px">
+         <tr>
+            <td style="border: 0" ></td>
+        </tr>
+         <tr>
+            <td style="border: 0" ></td>
+        </tr>
+         <tr>
+            <td style="border: 0" ></td>
+        </tr>
+         <tr>
+            <td style="border: 0" ></td>
+        </tr>
+{#        <tr>#}
+{#            <td style="border: 0" ><img name='logo' src="media/encabezado_certificado.png"></td>#}
+{#        </tr>#}
+
+        <tr>
+            <td style="border: 0; text-align: center; font-size: 16px;padding-left: -16px;padding-right: 50px"
+                colspan="3"><strong></strong></td>
+            <td style="border: 0; text-align: right" colspan="5"><h5>Naranjito, 11 de Octubre del 2022</h5></td>
+        </tr>
+        <tr>
+            <td style="border: 0; text-align: center" colspan="5"><h5></h5></td>
+        </tr>
+        <tr>
+            <td style="border: 0; text-align: center" colspan="5"><h5></h5></td>
+        </tr>
+        <tr>
+            <td style="border: 0; text-align: center" colspan="5"><h5></h5></td>
+        </tr>
+        <tr>
+            <td style="border: 0; text-align: center;font-size: 19px;margin-left: 15px" colspan="8"><h5>CERTIFICADO
+                MÉDICO</h5></td>
+        </tr>
+    </table>
+    <div style="font-size: 12px; font-family: Verdana, Arial, sans-serif;">
+        <div id="header_body"><br><br>
+            <div style="text-align: justify;width: 13px">
+                Certifico que la Srta. FABIANA HOARA FAJARDO GONZALEZ con C.I 094178797-0 se sometió a una cirugía para
+                la exodoncia de las piezas: 1.8, 2.8, 3.8, 4.8 (terceros molares) por el diagnóstico de DIENTES
+                IMPACTADOS, CIE 10 (K011) el 11 de octubre de 2022.
+            </div><br>
+            <div style="text-align: justify;">
+                Paciente necesita guardar reposo por al menos TRES (3) días, desde el ONCE (11) hasta el TRECE (13) de
+                octubre de 2022.
+                Paciente debe evitar exposición al sol, agacharse, realizar esfuerzo físico, etc.
+            </div><br><br><br><br><br><br>
+            <div style="text-align: justify;">
+                ATENTAMENTE:
+            </div>
+            <br><br><br><br>
+            <div style="text-align: center">
+                _________________________________________________<br>
+                Dra. Ana Maritza Rea Huacón<br>
+                <strong>ODONTÓLOGA</strong><br>
+                <strong>C.I 0914995857</strong>
+            </div>
+        </div>
+    </div>
+</div>

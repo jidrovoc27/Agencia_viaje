@@ -1,0 +1,39 @@
+{% extends 'formularioBase.html' %}
+{% load static %}
+{% block head %}
+    <link id="pagestyle" href="{% static 'css/dropify.min.css' %}" rel="stylesheet"/>
+{% endblock %}
+{% block titulo %}{{ titulo_formulario }}{% endblock %}
+{% block class_extra_card_formulario %}col-lg-8 col-md-10{% endblock %}
+{% block inputs_extras %}
+    <input type="hidden" name="peticion" value="{{ peticion }}">
+{% endblock %}
+{% block contenido_extra %}
+
+{% endblock %}
+{% block news_inputs_form %}
+
+{% endblock %}
+{% block nombre_boton_submit %}Guardar{% endblock %}
+{% block location_href_destino %}{% url 'conf_modulo' %}{% endblock %}
+{% block botones_extras %}{% endblock %}
+
+
+
+{% block js %}
+    <script src="{% static 'js/dropify.min.js' %}"></script>
+    <script>
+        $(function () {
+            $('.dropify').dropify({
+                messages: {
+                    'default': 'Drag and drop a file here or click',
+                    'replace': 'Drag and drop or click to replace',
+                    'remove': 'Remove',
+                    'error': 'Ooops, something wrong happended.'
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+

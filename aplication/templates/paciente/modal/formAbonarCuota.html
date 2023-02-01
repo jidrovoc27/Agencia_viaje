@@ -1,0 +1,19 @@
+<input type="hidden" name="peticion" value="{{ peticion }}">
+<input type="hidden" name="id" value="{{ consulta.id }}">
+{% for field in form %}
+    <div class="input-group input-group-static my-3  ">
+        {{ field.errors }} {{ field.label_tag }} {{ field }} {% if field.help_text %}
+        <small id="help"
+               class="form-text text-muted">{{ field.help_text|safe }}</small> {% endif %}
+    </div>
+
+{% endfor %}
+<div class="row">
+    <small>Total Deuda: $ {{ consulta.obtener_costo_total }} <br> Total Abonado: $ {{ consulta.obtener_total_abonado }}</small>
+    <small>Restante: $ {{ consulta.obtener_saldo_pendiente }} </small>
+</div>
+<div class="d-flex justify-content-end ">
+    <button type="button" class="btn btn-light m-0" data-bs-dismiss="modal">Cancelar</button>
+    <button id="submit" type="submit" class="btn btn-success m-0 ms-2">Abonar</button>
+
+</div>

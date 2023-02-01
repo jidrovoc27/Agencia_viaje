@@ -1,0 +1,216 @@
+{% extends 'baseapp.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+{% block contenido %}
+
+    <div class="col-md-12 mb-lg-0 mb-4 ">
+        <div class="position-relative  card mt-1 ">
+            <div class="card-header pb-0 p-3 ">
+                <div class="row ">
+                    <div class="col-6 d-flex align-items-center">
+
+                    </div>
+                    <div class="col-6 text-end">
+                     <a href="?peticion=reporte_pacientes" class="btn btn-primary">reporte de pacientes</a>
+                     <a href="?peticion=reporte_asistentes" class="btn btn-primary">reporte de asistentes</a>
+                     <a href="?peticion=reporte_especialistas" class="btn btn-primary">reporte de especialistas</a>
+                     <a href="?peticion=reporte_tratamiento" class="btn btn-primary">reporte de tratamiento</a>
+                     <a href="?peticion=reporte_tratamiento_por_paciente" class="btn btn-primary">reporte de tratamientos por pacientes</a>
+                     <a href="javascript:;" onclick="ventana_modal('reporte_filtro','','Reportes')" class="btn btn-secondary">Reporte por fecha y por especialista</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-3">
+                <div class="row container-fluid">
+
+                     <div class="col-lg-12 mt-4">
+                        <div id="pacientes-genero">
+
+                        </div>
+                         <br>
+                         <div id="tratamientos-cantidadPacientes">
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            {% include 'paginador.html' %}
+        </div>
+
+
+    </div>
+
+
+
+
+{% endblock %}
+{% block modals %}
+    <!-- Modal -->
+    <div class="modal fade" id="modalGeneric">
+
+        <div class="modal-dialog modal-dialog-centered  modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-uppercase"></h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST">
+                    {% csrf_token %}
+                        <div class="form_contenido">
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+ <script src="{% static 'Highcharts-9.3.0/code/highcharts.js'%}"></script>
+<script src="{% static 'Highcharts-9.3.0/code/modules/exporting.js'%}"></script>
+<script src="{% static 'Highcharts-9.3.0/code/modules/export-data.js'%}"></script>
+<script src="{% static 'Highcharts-9.3.0/code/modules/accessibility.js'%}"></script>
+    <script>
+        var pacientesFemeninos = "{{pacientes_femenino}}"
+        var pacientesMasculino = "{{pacientes_masculino}}"
+        var tratamientos ={{ tratamientos |safe }}
+        console.log(tratamientos)
+        var cantidad_pacientes ="{{ cantidad_pacientes }}"
+
+
+        Highcharts.chart('pacientes-genero', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Total de pacientes por genero'
+        },
+        xAxis: {
+            categories: [
+                'Femenino',
+                'Masculino'
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Pacientes'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Femenino',
+            data: [parseInt(pacientesFemeninos)]
+
+        }, {
+            name: 'Masculino',
+            data: [parseInt(pacientesMasculino)]
+
+        }]
+    });
+
+        Highcharts.chart('tratamientos-cantidadPacientes', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Total de pacientes que se realizaron un tratamiento'
+        },
+        xAxis: {
+            categories: [
+                 {% for c in tratamientos %}
+                     '{{ c|safe }}',
+                 {% endfor %}
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Pacientes'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Cantidad de pacientes',
+            data: [
+                 {% for c in cantidad_pacientes %}
+                     {{ c }},
+                 {% endfor %}
+            ]
+
+        }]
+    });
+
+    </script>
+
+   <script>
+        function ventana_modal(peticion, pk, titulo) {
+            $.ajax({
+                type: "GET",
+                url: `{{ request.path }}`,
+                dataType: "json",
+                data: {
+                    'peticion': peticion,
+                    'id': pk,
+                },
+                success: function (data) {
+                    if (data.respuesta === true) {
+                        $('.modal-body .form_contenido').html(data.data);
+                        $('#modalGeneric .modal-title').html(titulo);
+                        $("#modalGeneric").modal({backdrop: 'static'}).modal('show');
+                    } else {
+                        alert(data.mensaje);
+                    }
+                },
+                error: function () {
+                    alert("Error de conexión.");
+                },
+
+            });
+        }
+
+    </script>
+
+{% endblock %}

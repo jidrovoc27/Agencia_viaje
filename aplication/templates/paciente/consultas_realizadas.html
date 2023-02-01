@@ -1,0 +1,342 @@
+{% extends 'baseapp.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+{% block contenido %}
+
+    <div class="col-md-12 mb-lg-0 mb-4 ">
+        <div class="position-relative  card mt-1 ">
+            <div class="card-header pb-0 p-3 ">
+                <div class="row ">
+                    <div class="col-6 d-flex align-items-center">
+                        <h6 class="mb-0">{{ titulo_tabla }}</h6>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-body p-3">
+                <div class="row">
+
+                    <div class="table-responsive-lg">
+                        <table class="table table-striped table-hover align-items-center mb-0 ">
+                            <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolde text-center">N°.
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                    Fecha
+                                </th>
+
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                    Diagnostico Previo
+                                </th>
+
+{#                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder">#}
+{#                                    Tratamiento#}
+{#                                </th>#}
+
+                                </th>
+
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                    Pagado
+                                </th>
+
+
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                    Costo Total
+                                </th>
+
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder">
+                                    Cancelado
+                                </th>
+
+
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                    Acciones
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for fila in page_obj %}
+                                <td class="text-uppercase text-secondary text-xxs font-weight-bolder text-center">{{ forloop.counter }}</td>
+                                <td class="text-xs" data-title="Fecha">
+                                    <h6 class="mb-0 text-xs">{{ fila.fecha }}</h6>
+                                </td>
+
+                                <td class="text-xs" data-title="Fecha">
+                                    <h6 class="mb-0 text-xs">{{ fila.diagnostico_previo }}</h6>
+                                </td>
+
+{#                                <td class="text-xs" data-title="Fecha">#}
+{#                                    {% for tratamiento in fila.tratamientos.all %}#}
+{#                                        <span class="badge badge-sm bg-gradient-success">{{ tratamiento }}</span><br>#}
+{#                                        <br>#}
+{#                                    {% endfor %}#}
+{##}
+{#                                </td>#}
+
+                                <td class="text-xs text-center" data-title="Fecha">
+                                    <h6 class="mb-0 text-xs">$ {{ fila.obtener_total_pagado }}</h6>
+                                </td>
+                                <td class="text-xs text-center" data-title="Fecha">
+                                    <h6 class="mb-0 text-xs">$ {{ fila.obtener_valor_consulta }}</h6>
+                                </td>
+
+                                <td class="text-xs text-center" data-title="Fecha">
+                                    {% if fila.verificar_cancelado %}
+                                        <span class="badge badge-sm bg-gradient-success text-center">CANCELADO</span>
+                                    {% else %}
+                                        <span class="badge badge-sm bg-gradient-danger text-center">ADEUDA</span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-secondary text-sm font-weight-bolder text-center">
+                                    <div class="dropstart">
+                                        <a href="javascript:;" class="text-secondary" id="dropdownMarketingCard"
+                                           data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="material-icons text-xl">more_vert</i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3"
+                                            aria-labelledby="dropdownMarketingCard" style="">
+                                            <li><a class="dropdown-item border-radius-md"
+                                                   href="?peticion=ver_odontograma&id={{ fila.pk }}">Ver Odontograma</a>
+                                            </li>
+
+                                            <li><a class="dropdown-item border-radius-md"
+                                                   href="?peticion=descargar_odontograma&id={{ fila.pk }}">Descargar
+                                                Odontograma</a>
+                                            </li>
+
+                                            {% if not fila.cancelado %}
+                                                {% for foo in request.user.groups.all %}
+                                                    {% if   foo.pk == 2 %}
+                                                        <li><a class="dropdown-item border-radius-md"
+                                                               href="javascript:;"
+                                                               onclick="formulario_modal('abonar_cuota','{{ fila.pk }}','Abonar cuota')">Abonar
+                                                            cuota</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                            {% endif %}
+
+                                            {% if fila.cancelado %}
+                                                <li><a class="dropdown-item border-radius-md"
+                                                       href="?peticion=ver_factura&id={{ fila.pk }}"  >Recibo</a>
+                                                </li>
+                                                {% for foo in request.user.groups.all %}
+                                                    {% if   foo.pk == 2 %}
+                                                        <li><a class="dropdown-item border-radius-md"
+                                                               onclick="enviar_factura('enviar_factura','{{ fila.pk }}','{{ fila | upper }}')"
+                                                               href="javascript:;">Enviar Recibo</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                 <li><a class="dropdown-item border-radius-md"
+                                                       href="?peticion=descargar_factura&id={{ fila.pk }}"  >Descargar recibo</a>
+                                                </li>
+
+
+
+                                            {% endif %}
+                                            <li><a class="dropdown-item border-radius-md"
+                                                   href="javascript:;"
+                                                   onclick="ventana_modal('historial_abono_cuota','{{ fila.pk }}','Historial abonado')">Historial
+                                                de abonos
+                                            </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+                                </td>
+
+
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="10"
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolde text-center">No
+                                        existen registro
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            {% include 'paginador.html' %}
+        </div>
+
+
+    </div>
+
+
+
+
+{% endblock %}
+{% block modals %}
+    <!-- Modal -->
+    <div class="modal fade" id="modalGeneric">
+
+        <div class="modal-dialog modal-dialog-centered  modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-uppercase"></h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" autocomplete="off" action="{{ request.path }}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class=" contenido-modal">
+
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalGeneric_historial">
+
+        <div class="modal-dialog modal-dialog-centered  modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-uppercase"></h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body_historial">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block script %}
+    <script>
+        function formulario_modal(peticion, pk, titulo) {
+            $.ajax({
+                type: "GET",
+                url: `{{ request.path }}`,
+                dataType: "json",
+                data: {
+                    'peticion': peticion,
+                    'id': pk,
+                },
+                success: function (data) {
+                    if (data.respuesta === true) {
+                        $('.contenido-modal').html(data.data);
+                        $('#modalGeneric .modal-title').html(titulo);
+                        $("#modalGeneric").modal({backdrop: 'static'}).modal('show');
+                    } else {
+                        alert(data.mensaje);
+                    }
+                },
+                error: function () {
+                    alert("Error de conexión.");
+                },
+
+            });
+        }
+
+    </script>
+
+    <script>
+        function enviar_factura(peticion,id,registro){
+         Swal.fire({
+            title: '¿Estás seguro de enviar la factura a esta paciente?',
+            text: registro,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, enviar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'GET',
+                    url: '{{ reques.path }}',
+                    async: false,
+                    data: {
+                        peticion: peticion,
+                        id: id,
+                    },
+                    dataType: "json",
+                    beforeSend: function () {
+
+                    }
+                }).done(function (data) {
+                    if (data.respuesta === true) {
+                        Swal.fire(
+                            'Factura Enviada!',
+                            data.mensaje,
+                            'success'
+                        ).then(function () {
+                            location.reload();
+                        });
+                    } else {
+
+                        Swal.fire(data.mensaje);
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    mensaje_alerta('Error al intentar conectar con el servidor', 'Error de conexiòn');
+                }).always(function () {
+                });
+
+
+            }
+
+        })
+
+    }
+
+        function ventana_modal(peticion, pk, titulo) {
+            $.ajax({
+                type: "GET",
+                url: `{{ request.path }}`,
+                dataType: "json",
+                data: {
+                    'peticion': peticion,
+                    'id': pk,
+                },
+                success: function (data) {
+                    if (data.respuesta === true) {
+                        $('.modal-body_historial').html(data.data);
+                        $('#modalGeneric_historial .modal-title').html(titulo);
+                        $("#modalGeneric_historial").modal({backdrop: 'static'}).modal('show');
+                    } else {
+                        alert(data.mensaje);
+                    }
+                },
+                error: function () {
+                    alert("Error de conexión.");
+                },
+
+            });
+        }
+    </script>
+
+{% endblock %}}

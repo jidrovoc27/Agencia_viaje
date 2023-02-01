@@ -1,0 +1,126 @@
+{% extends 'baseapp.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        h4 {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        h5 {
+            margin: 0;
+        }
+
+        h3 {
+            font-size: 20px;
+            line-height: 20px;
+        }
+
+        .padding {
+            padding: 15px 15px 15px 15px;
+        }
+
+        .icono {
+            width: 160px;
+            float: left;
+            height: 190px;
+            background: #fafafa;
+
+            /*background: #0c0c0c;*/
+            margin-right: 10px;
+            margin-bottom: 10px;
+            position: relative;
+            border-radius: 10px 10px;
+            vertical-align: middle;
+
+        }
+
+        .icono.hovered {
+            background: rgba(90, 141, 238, .15);
+            color: #5A8DEE;
+            cursor: pointer;
+
+        }
+
+        .icono .icononombre {
+            font-weight: bold;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            font-size: 14px;
+            line-height: 10px;
+        }
+
+        .icono .iconodescripcion {
+            font-weight: normal;
+            font-size: 10px;
+            line-height: 10px;
+        }
+
+        .icono .iconoimagen {
+            width: 100%;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .icono .iconoimagen img {
+            height: 80px;
+        }
+    </style>
+{% endblock %}
+{% block contenido %}
+    <div class="row">
+
+        <div class="col">
+            {% for modulo in modulos %}
+                <div class="contenidoitem">
+                <div class="icono " url="{{ modulo.ruta }}">
+                    <div class="iconoimagen">
+                        <div class="padding">
+                            <img src="{{ modulo.icono.url }}" alt="Card image cap">
+                        </div>
+                    </div>
+                    <div class="icononombre">
+                        <div class="padding">
+                            <h4 class="tituloicono">{{ modulo.nombre }}</h4>
+                            <span class="iconodescripcion">{{ modulo.descripcion }} </span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+
+        $(".icono").hover(function () {
+
+            $(this).addClass("hovered");
+        }, function () {
+            $(this).removeClass("hovered");
+
+        }).click(function () {
+
+            var url = $(this).attr('url');
+
+            if (url[0] == '/') {
+
+                location.href = url;
+
+            } else {
+
+                location.href = "/" + url;
+            }
+
+
+        });
+
+    </script>
+
+{% endblock %}

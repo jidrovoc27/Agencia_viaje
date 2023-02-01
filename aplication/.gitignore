@@ -1,0 +1,14 @@
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+/.idea
+/.idea/**
+/media/
+/media/**
+/venv/
+/venv/**
+/.vscode
+/.vscode/**
+/Pipfile.lock
+/odontologico/migrations/__init__.py
+/db.sqlite3

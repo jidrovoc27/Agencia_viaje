@@ -1,0 +1,25 @@
+{% extends 'formularioBase.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+{% block titulo %}{{ titulo_formulario }}{% endblock %}
+{% block class_extra_card_formulario %}col-lg-8 col-md-10{% endblock %}
+{% block inputs_extras %}
+    <input type="hidden" name="peticion" value="{{ peticion }}">
+    <input type="hidden" name="id" value="{{ tratamiento.id }}">
+{% endblock %}
+{% block news_inputs_form %}
+
+{% endblock %}
+{% block nombre_boton_submit %}Modificar{% endblock %}
+{% block location_href_destino %}{% url 'tratamiento'%}{% endblock %}
+{% block botones_extras %}{% endblock %}
+
+
+
+{% block js %}
+
+
+{% endblock %}
+

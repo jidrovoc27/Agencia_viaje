@@ -1,0 +1,84 @@
+{% extends 'formularioBase.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+{% block contenido_extra %}
+
+{% endblock %}
+{% block lista_de_items_many_to_many %}
+{% endblock %}
+{% block titulo %}{{ titulo_formulario }}{% endblock %}
+{% block class_extra_card_formulario %}col-lg-8 col-md-10{% endblock %}
+{% block inputs_extras %}
+    <input type="hidden" name="peticion" value="{{ peticion }}">
+    <input type="hidden" name="idrubro" value="{{ idrubro }}">
+    <input type="hidden" name="id" value="{{ id }}">
+{% endblock %}
+
+{% block news_inputs_form %}
+
+{% endblock %}
+{% block nombre_boton_submit %}Guardar{% endblock %}
+{% block location_href_destino %}{% url 'finanzas?peticion=ver_pagos&id={{ id }}'&idrubro=%s' %}{% endblock %}
+{% block botones_extras %}{% endblock %}
+
+{% block modals %}
+    <!-- Modal -->
+
+{% endblock %}
+
+
+
+
+{% block js %}
+{#    <script type="text/javascript">#}
+{#        // Initialize our function when the document is ready for events.#}
+{#        jQuery(document).ready(function () {#}
+{#            // Listen for the input event.#}
+{#            jQuery("#id_valor").on('input', function (evt) {#}
+{#                // Allow only numbers.#}
+                {#jQuery(this).val(jQuery(this).val().replace(/[^0-9]/g, ''));#}
+{#                var charCode = (evt.which) ? evt.which : evt.keyCode;#}
+{#                if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))#}
+{#                  return false;#}
+{##}
+{#                return true;#}
+{##}
+{#            });#}
+{#        });#}
+{#    </script>#}
+
+    </script>
+
+    <script>
+
+        function mensajeSuccess(mensaje) {
+            Swal.fire('', mensaje, 'success')
+        }
+
+        function mensajeWarning(mensaje) {
+            Swal.fire('', mensaje, 'warning')
+        }
+
+        function mensajeDanger(mensaje) {
+            Swal.fire('', mensaje, 'error')
+        }
+
+        $(function () {
+
+            $('#id_valor').on('keyup', function () {
+                {#$('#id_subtotal_iva').val('0')#}
+                $('#id_valorfinal').val('0')
+                var valor = this.value;
+                {#var subtotal_iva = valor * 0.12#}
+                {#$('#id_subtotal_iva').val(subtotal_iva)#}
+                var valorfinal = parseFloat(valor)
+                $('#id_valorfinal').val(valorfinal)
+            });
+        });
+    </script>
+
+
+{% endblock %}
+

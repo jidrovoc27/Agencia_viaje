@@ -1,0 +1,165 @@
+{% extends 'baseapp.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+
+{% block contenido %}
+    {% block contenido_extra %}
+
+    {% endblock %}
+
+    <div class="mx-auto {% block class_extra_card_formulario %}{% endblock %} ">
+
+        <div class="card ">
+            <div class="card-body ">
+                <h5 class="font-weight-bolder">{% block titulo %}{% endblock %}</h5>
+
+                <div class="">
+                    <form class="" method="POST" id="formulario_data_enviar" enctype="multipart/form-data">
+                        {% block inputs_extras %}{% endblock %}
+                        {% csrf_token %}
+
+                        {% for field in form %}
+
+                              <div class="input-group input-group-static my-3  ">
+                                    {{ field.errors }} {{ field.label_tag }} {{ field }} {% if field.help_text %}
+                                    <small id="help"
+                                           class="form-text text-muted">{{ field.help_text|safe }}</small> {% endif %}
+                                </div>
+
+                        {% endfor %}
+                        {% block news_inputs_form %}
+
+                        {% endblock %}
+
+                        <div class="d-flex justify-content-end ">
+                            <a href="javascript:history.back()" name="button" class="btn btn-light m-0">Cancelar</a>
+                            <button id="submit" type="submit" class="btn btn-success m-0 ms-2">
+                                {% block nombre_boton_submit %}{% endblock %}</button>
+                            {% block botones_extras %}
+                            {% endblock %}
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+        <br>
+
+    </div>
+
+{% endblock %}
+
+
+{% block script %}
+
+    <script>
+        $(function () {
+            //Date picker
+            $('#id_fecha_cita').datetimepicker({
+                format: 'DD-MM-YYYY'
+            });
+
+        });
+
+
+
+        $('#formulario_data_enviar').submit(function (e) {
+            e.preventDefault();
+            var $form = $(this);
+            // check if the input is valid using a 'valid' property
+            if (!$form.valid) {
+                var forms = $('#formulario_data_enviar')[0];
+                var formData = new FormData(forms);
+                {% block lista_de_items_many_to_many %}
+
+                {% endblock %}
+
+                $.ajax({
+                    url: '{{request.path}}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data.respuesta === true) {
+                            Swal.fire(
+                                'Envio de Datos',
+                                data.mensaje,
+                                'success'
+                            ).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    location.href = "{% block location_href_destino %}/{% endblock %}" + ((data.id) ? data.id : "");
+                                }
+                            });
+
+                        } else {
+                            var myToast = $.toast({
+                                heading: "error",
+                                text: data.mensaje,
+                                showHideTransition: 'slide',
+                                icon: 'danger',
+                                position: 'top-right',
+                                stack: false
+                            });
+                            if (data.repetidos) {
+                                if (data.repetidos.length > 0) {
+                                    myToast.reset('all')
+                                    repetidos = data.repetidos;
+                                    $.toast({
+                                        heading: data.mensaje,
+                                        text: repetidos,
+                                        showHideTransition: 'slide',
+                                        icon: 'info',
+                                        position: 'top-right',
+                                        stack: false
+                                    });
+
+                                }
+                            }
+
+                        }
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        var mensaje = '';
+                        if (jqXHR.status === 0) {
+                            mensaje = 'Not connect: Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            mensaje = 'Requested page not found [404]';
+                        } else if (jqXHR.status == 500) {
+                            mensaje = 'Internal Server Error [500].';
+                        } else if (textStatus === 'parsererror') {
+                            mensaje = 'Requested JSON parse failed.';
+                        } else if (textStatus === 'timeout') {
+                            mensaje = 'Time out error.';
+                        } else if (textStatus === 'abort') {
+                            mensaje = 'Ajax request aborted.';
+                        } else {
+                            mensaje = 'Uncaught Error: ' + jqXHR.responseText;
+                        }
+                        //smoke.alert("Error al enviar los datos: " + msg);
+                        alert("Error al enviar los datos: " + mensaje);
+                    },
+
+                });
+
+            } else {
+                return false;
+            }
+
+        });
+    </script>
+
+
+
+    {% block js %}
+
+    {% endblock %}
+
+{% endblock %}

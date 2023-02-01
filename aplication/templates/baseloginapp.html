@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/apple-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <title>{% block titulo %}{{ titulo }}{% endblock %}</title>
+    <!--     Fonts and icons     -->
+    <link href="{% static 'fonts/robotofontfamily.css' %}" rel="stylesheet"/>
+    <!-- Nucleo Icons -->
+    <link href="{% static 'css/nucleo-icons.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/nucleo-svg.css' %}" rel="stylesheet"/>
+    <!-- Font Awesome Icons -->
+    <script src="{% static 'js/fontawesome.js' %}"></script>
+    <!-- Material Icons -->
+    <link href="{% static 'css/icon.css' %}" rel="stylesheet"/>
+    <!-- CSS Files -->
+    <link id="pagestyle" href="{% static 'css/material-dashboard.min.css' %}" rel="stylesheet"/>
+    <link id="pagestyle" href="{% static 'css/sweetalert2.min.css' %}" rel="stylesheet"/>
+
+    {% block head %}{% endblock %}
+
+
+
+</head>
+
+<body class="">
+<main class="main-content main-content-bg mt-0 ps">
+    {% block contenido %}
+
+
+    {% endblock %}
+</main>
+<!--   Core JS Files   -->
+<script src="{% static 'js/core/popper.min.js' %}"></script>
+<script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static 'js/material-dashboard.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+<script src="{% static 'js/sweetalert2.min.js' %}"></script>
+<script src="{% static 'js/componentes.js' %}"></script>
+<script src="{% static 'js/imask.js' %}"></script>
+  <script src="{% static 'js/ruc_jquery_validator.min.js' %}"></script>
+
+
+<script>
+     function solo_numeros(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key);
+        letras_validas = "1234567890";
+        if (letras_validas.indexOf(tecla) === -1) {
+            return false;
+        }
+    }
+
+    function solo_digitos(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key);
+        letras_validas = "1234567890.";
+        if (letras_validas.indexOf(tecla) === -1) {
+            return false;
+        }
+    }
+
+    function solo_letras(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key);
+        letras_validas = "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        if (letras_validas.indexOf(tecla) === -1) {
+            return false;
+        }
+    }
+</script>
+
+{% block script %}{% endblock %}
+</body>
+
+</html>

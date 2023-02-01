@@ -1,0 +1,47 @@
+{% extends 'paciente/historial_clinico.html' %}
+{% block subbody %}
+    <div class="container" style="margin-top: 20px">
+        <form class="row g-3">
+            <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombres</label>
+                <input type="text" class="form-control" disabled id="nombre" value="{{ datos_paciente.persona.nombre1 }} {{ datos_paciente.persona.nombre2 }}">
+            </div>
+            <div class="col-md-6">
+                <label for="apellido" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" disabled id="apellido" value="{{ datos_paciente.persona.apellido1 }} {{ datos_paciente.persona.apellido2 }}">
+            </div>
+            <div class="col-md-6">
+                <label for="cedula" class="form-label">Cédula</label>
+                <input type="text" class="form-control" disabled id="cedula" value="{{ datos_paciente.persona.cedula }}">
+            </div>
+            <div class="col-md-6">
+                <label for="correo" class="form-label">Correo electrónico</label>
+                <input type="text" class="form-control" disabled id="correo" placeholder="Correo" value="{{ datos_paciente.persona.email }}" placeholder="Correo electrónico">
+            </div>
+            <div class="col-md-6">
+                <label for="genero" class="form-label">Género</label>
+                <input type="text" class="form-control" disabled id="genero" value="{{ datos_paciente.persona.genero.nombre }}">
+            </div>
+            <div class="col-md-6">
+                <label for="telefonomovil" class="form-label">Teléfono móvil</label>
+                <input type="text" class="form-control" disabled id="telefonomovil" value="{{ datos_paciente.persona.telefono_movil }}" placeholder="Teléfono móvil">
+            </div>
+            <div class="col-md-6">
+                <label for="telefonofijo" class="form-label">Teléfono fijo</label>
+                <input type="text" class="form-control" disabled id="telefonofijo" value="{{ datos_paciente.persona.telefono_convencional }}" placeholder="Teléfono fijo">
+            </div>
+            <div class="col-md-6">
+                <label for="ciudad" class="form-label">Ciudad</label>
+                <input type="text" class="form-control" disabled id="ciudad" value="{{ datos_paciente.persona.ciudad }}" placeholder="Ciudad">
+            </div>
+            <div class="col-md-6">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input type="text" class="form-control" disabled id="direccion" value="{{ datos_paciente.persona.direccion }}" placeholder="Dirección">
+            </div>
+            <div class="col-md-6">
+                <label for="referencia" class="form-label">Referencia</label>
+                <input type="text" class="form-control" disabled id="referencia" value="{{ datos_paciente.persona.referencia }}" placeholder="Referencia">
+            </div>
+        </form>
+    </div>
+{% endblock %}

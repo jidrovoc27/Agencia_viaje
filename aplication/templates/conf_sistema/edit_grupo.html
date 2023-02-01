@@ -1,0 +1,277 @@
+{% extends 'formularioBase.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+{% block contenido_extra %}
+
+{% endblock %}
+{% block lista_de_items_many_to_many %}
+    try {
+    formData.append('items', JSON.stringify(items))
+    } catch (e) {
+    console.log(e.message);
+    }
+{% endblock %}
+{% block titulo %}{{ titulo_formulario }}{% endblock %}
+{% block class_extra_card_formulario %}col-lg-8 col-md-10{% endblock %}
+{% block inputs_extras %}
+    <input type="hidden" name="peticion" value="{{ peticion }}">
+    <input type="hidden" name="id" value="{{ grupo.pk }}">
+{% endblock %}
+
+{% block news_inputs_form %}
+    <div class="mt-3">
+        <div class="input-group input-group-static my-3     ">
+            <label for="id_nombre">Nombre</label>
+            <input type="text" autocomplete="off" id="id_nombre" name="nombre" class="form-control uppercase-input"
+                   onfocus="focused(this)" onfocusout="defocused(this)" required value="{{ grupo.name }}">
+        </div>
+
+        <div class="row">
+        <label for="">Permisos <label class="form-text text-muted text-xs ms-1 d-inline">(A continuación se listan los permisos que usted a asignado a este grupo)</label></label>
+            <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                    <tr>
+
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center">
+                            Permiso
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center   ">
+                            APP
+                        </th>
+                        <th class=" text-uppercase text-secondary text-xxs font-weight-bolder text-center">
+                            MODELO
+                        </th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-center">
+                            TIPO
+                        </th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-center"></th>
+                    </tr>
+                    </thead>
+                    <tbody class="" id="bodyItems">
+                    {% for permission in grupo.permissions.all %}
+                        <tr id='item_{{ permission.pk }}'>
+                            <td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>{{ permission.name }}</td>
+                            <td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>{{ permission.content_type.app_label }}</td>
+                            <td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>{{ permission.content_type.model }}</td>
+                            <td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>{{ permission.codename }}</td>
+                            <td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>
+                                <a href='javascript:;' class='eliminar_fila' ta-bs-toggle='tooltip'
+                                   data-bs-original-title='Eliminar Item' id='{{ permission.pk }}'>
+                                    <i class='material-icons '>delete</i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    {% empty %}
+                        <tr>
+                            <td colspan="10"
+                                class="text-uppercase text-secondary text-xxs font-weight-bolde text-center">No
+                                ha seleccionado ninguno
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+
+                </table>
+                <div><a class="btn bg-gradient-dark btn-sm" href="javascript:;" id="add" type="button"
+                        title="Next">Adicionar</a></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block nombre_boton_submit %}Guardar{% endblock %}
+{% block location_href_destino %}{% url 'conf_grupo' %}{% endblock %}
+{% block botones_extras %}{% endblock %}
+
+{% block modals %}
+    <!-- Modal -->
+    <div class="modal fade" id="modalGeneric">
+
+        <div class="modal-dialog modal-fullscreen ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-uppercase">Seleccione los permisos que desea agregar</h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group input-group-outline mb-3">
+                        <label for="" class="form-label">Buscador</label>
+                        <input type="search"
+                               class="form-control"
+                                id="buscador_tabla" name="buscador_tabla">
+                    </div>
+                    <table class="table align-items-center mb-0"  id="tabla_lista">
+                        <thead>
+                        <tr>
+
+                            <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder">Permiso
+                            </th>
+                            <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder">App</th>
+                            <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder">Modelo
+                            </th>
+                            <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder">Tipo</th>
+                            <th class="text-center"><input type="checkbox" id="todos"></th>
+                        </tr>
+                        </thead>
+                        <tbody id="">
+                        {% for fila in permisos %}
+                            <tr>
+
+                                <td class="text-uppercase text-secondary text-xxs font-weight-bolde text-center">{{ fila.name }}</td>
+                                <td class="text-uppercase text-secondary text-xxs font-weight-bolde text-center">{{ fila.content_type.app_label }}</td>
+                                <td class="text-uppercase text-secondary text-xxs font-weight-bolde text-center">{{ fila.content_type.model }}</td>
+                                <td class="text-uppercase text-secondary text-xxs font-weight-bolde text-center">{{ fila.codename }}</td>
+                                <td class="text-uppercase text-secondary text-xxs font-weight-bolde text-center">
+                                    <input type='checkbox' class="itemsseleccionados"
+                                           id={{ fila.pk }}
+                                                   name='{{ fila.name }}'
+                                           app_label='{{ fila.content_type.app_label }}'
+                                           model='{{ fila.content_type.model }}'
+                                           codename='{{ fila.codename }}'
+
+                                           class='seleccionado'>
+                                </td>
+
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td class="text-uppercase text-secondary text-xxs font-weight-bolde text-center"
+                                    colspan="10">NO EXISTEN REGISTROS
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="agregar">Agregar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+{% block js %}
+
+    <script>
+        var items = [];
+
+        $(function () {
+            $("#todos").click(function () {
+                if ($(this).is(":checked")) {
+                    $(".itemsseleccionados").prop('checked', true);
+                } else {
+                    $(".itemsseleccionados").prop('checked', false);
+                }
+
+            });
+
+            $('#add').click(function () {
+                $(".itemsseleccionados").prop('checked', false);
+                 $("#todos").prop('checked', false);
+                $("#modalGeneric").modal({backdrop: 'static'}).modal('show');
+            });
+
+            actualizar_items = function () {
+                items = [];
+                $(".eliminar_fila").each(function () {
+                    var item = {
+                        id: $(this).attr("id")
+                    };
+                    items.push(item);
+                });
+            };
+
+            eliminar_items = function () {
+                $(".eliminar_fila").unbind();
+                $(".eliminar_fila").click(function () {
+                    var _id = $(this).attr('id');
+                    $('#item_' + _id).remove();
+                    actualizar_items();
+                    if ($(".eliminar_fila").length == 0) {
+                        $("#bodyItems").append(" <tr><td colspan='10' class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>No ha seleccionado ninguno</td> </tr>");
+                    }
+                });
+            };
+
+            $("#agregar").click(function () {
+
+                if ($(".eliminar_fila").length == 0) {
+                    $("#bodyItems").empty();
+                }
+
+                $(".itemsseleccionados").each(function () {
+                    if ($(this).is(":checked")) {
+                        var _id = $(this).attr("id");
+                        var _name = $(this).attr("name");
+                        var _app_label = $(this).attr("app_label");
+                        var _model = $(this).attr("model");
+                        var _codename = $(this).attr("codename");
+                        if ($("#item_" + _id).length == 0) {
+                            $("#bodyItems").append(
+                                "<tr id='item_" + _id + "'>" +
+                                "<td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center' >" + _name + "</td>" +
+                                "<td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>" + _app_label + "</td>" +
+                                "<td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>" + _model + "</td>" +
+                                "<td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>" + _codename + "</td>" +
+                                "<td class='text-uppercase text-secondary text-xxs font-weight-bolde text-center'>" +
+                                "<a  href='javascript:;' class='eliminar_fila' ta-bs-toggle='tooltip' data-bs-original-title='Eliminar Item' id='" + _id + "'>" +
+                                "<i class='material-icons '>delete</i>" +
+                                "</a>" +
+                                "</td>" +
+                                "</tr>");
+
+                        }
+
+
+                    }
+                });
+                eliminar_items();
+                actualizar_items();
+                $("#modalGeneric").modal('hide');
+            });
+            eliminar_items();
+            actualizar_items();
+
+             $('input[type=search]').on('search', function () {
+                // Declare variables
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("buscador_tabla");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("tabla_lista");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+
+            });
+
+
+        });
+
+    </script>
+
+{% endblock %}
+

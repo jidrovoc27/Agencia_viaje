@@ -1,0 +1,292 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/apple-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <title>{% block titulo %}{{ titulo }}{% endblock %}</title>
+
+    <!--     Fonts and icons     -->
+    <link href="{% static 'fonts/robotofontfamily.css' %}" rel="stylesheet"/>
+    <!-- Nucleo Icons -->
+    <link href="{% static 'css/nucleo-icons.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/nucleo-svg.css' %}" rel="stylesheet"/>
+    <!-- Font Awesome Icons -->
+    <script src="{% static 'js/fontawesome.js' %}"></script>
+    <!-- Material Icons -->
+    <link href="{% static 'css/icon.css' %}" rel="stylesheet"/>
+    <!-- CSS Files -->
+    <link id="pagestyle" href="{% static 'css/material-dashboard.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/sweetalert2.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/jquery.toast.min.css' %}" rel="stylesheet"/>
+    <!-- CSS duallistbox -->
+   <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-duallistbox.min.css'%}">
+    <style>
+        .uppercase-input {
+            color: black;
+            width: 100%;
+            font-size: 12px;
+            margin-bottom: 0;
+            text-transform: capitalize;
+        }
+
+    </style>
+
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{% static 'css/daterangepicker.css' %}">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+          href="{% static 'css/tempusdominus-bootstrap-4.min.css' %}">
+
+    {% block head %}{% endblock %}
+</head>
+
+<body class="g-sidenav-show bg-gray-200">
+
+<main class="position-relative max-height-vh-100 h-100 border-radius-lg  ">
+<span class="navbar" style="display: none">
+    <a class=" navbar-collapse  ">
+    </a>
+</span>
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 mt-3 border-radius-xl bg-white">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    {% for ruta in lista_url_ruta %}
+                        <li class="breadcrumb-item  {% if ruta.0 == request.path %} text-dark active {% else %}text-dark opacity-5{% endif %}"
+                            aria-current="page">
+                            <a href="{{ ruta.0 }}">{{ ruta.1 }}</a></li>
+                    {% endfor %}
+                </ol>
+
+                <h6 class="font-weight-bolder mb-0">{{ titulo }}</h6>
+            </nav>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4">
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <div class="input-group input-group-outline">
+                          <small>{{ persona_logeado |upper }}</small>
+                    </div>
+                </div>
+                <ul class="navbar-nav  justify-content-end">
+                   {% if request.user.is_superuser %}
+                     <li class="nav-item d-flex align-items-center">
+                        <a href="/admin" class="  p-0 " target="_blank">
+                            <i class="fa fa-cog me-sm-1"></i>
+                        </a>
+                    </li>
+                   {% endif %}
+
+                    <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                        <a href="javascript:;" class=" p-0" id="dropdownMenuButton"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user me-sm-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Usuario" data-container="body" data-animation="true"></i>
+                        </a>
+                        <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4"
+                            aria-labelledby="dropdownMenuButton">
+                            <ol> <a href="{% url 'CambiarContraseña' %}"  data-bs-toggle="tooltip" data-bs-placement="bottom"  data-container="body" data-animation="true">
+                                    Cambiar contraseña</a><br></ol>
+                            <ol> <a href="{% url 'logout_usuario' %}" class="logout"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cerrar Sesión" data-container="body" data-animation="true">
+                                    Cerrar Sesión</a></ol>
+
+                            {% for perfil in mis_perfiles %}
+
+                                {% if perfil.is_paciente %}
+                                    <ol><a href="#" class="logout"> Perfil paciente</a></ol>
+                                {% endif %}
+                                {% if perfil.is_asistente %}
+                                    <ol><a href="#" class="logout" >Perfil asistente</a></ol>
+                                {% endif %}
+                                {% if perfil.is_especialista %}
+                                    <ol><a href="#" class="logout" >Perfil especialista</a></ol>
+
+                                {% endif %}
+                                {% if perfil.is_administrador %}
+                                    <ol><a href="#" class="logout"> Perfil administrador</a></ol>
+                                {% endif %}
+
+                            {% endfor %}
+
+
+
+
+
+
+
+                        </ul>
+
+                    </li>
+                    <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                         <a class="  me-sm-1 btn-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Atrás" data-container="body" data-animation="true"
+                           href="{% if request.path == '/' %} /  {% else %}javascript:history.back(){% endif %}"><span
+                                class="fa fa-arrow-left"></span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="container-fluid ">
+        <div class="content">
+
+            <!-- /.row -->
+            <div class="">
+                <div class="span12 text-end mt-2">
+                    <br>
+                </div>
+                {% block contenido %}
+                {% endblock %}
+                {% block modals %}
+                {% endblock %}
+
+
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+
+<!--   Core JS Files   -->
+<script src="{% static 'js/core/popper.min.js' %}"></script>
+<script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'js/plugins/smooth-scrollbar.min.js' %}"></script>
+
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static 'js/material-dashboard.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+
+<script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+<script src="{% static 'js/sweetalert2.min.js' %}"></script>
+<script src="{% static 'js/componentes.js' %}"></script>
+<script src="{% static 'js/jquery.blockUI.js' %}"></script>
+<script src="{% static 'js/jquery.toast.min.js' %}"></script>
+<script src="{% static 'js/imask.js' %}"></script>
+<script src="{% static 'js/jquery.bootstrap-duallistbox.min.js' %} "></script>
+  <script src="{% static 'js/ruc_jquery_validator.min.js' %}"></script>
+
+
+
+<!-- InputMask -->
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script src="{% static 'js/jquery.inputmask.min.js' %}"></script>
+<!-- date-range-picker -->
+<script src="{% static 'js/daterangepicker.js' %}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static 'js/tempusdominus-bootstrap-4.min.js' %}"></script>
+
+
+<script>
+
+
+    function eliminar_registro(peticion, registro, id) {
+
+        Swal.fire({
+            title: '¿Estás seguro de eliminar este registro?',
+            text: "Está acción es irrevesible!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, bórralo!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ reques.path }}',
+                    async: false,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        peticion: peticion,
+                        id: id,
+                    },
+                    dataType: "json",
+                    beforeSend: function () {
+
+                    }
+                }).done(function (data) {
+                    if (data.respuesta === true) {
+                        Swal.fire(
+                            'Eliminado!',
+                            data.mensaje,
+                            'success'
+                        ).then(function () {
+                            location.reload();
+                        });
+                    } else {
+
+                        Swal.fire(data.mensaje);
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    mensaje_alerta('Error al intentar conectar con el servidor', 'Error de conexiòn');
+                }).always(function () {
+                });
+
+
+            }
+
+        })
+
+
+    }
+
+    function Block_UI() {
+        $.blockUI({
+            message: '<span class="sr-only">Loading...</span></div>   <div class="spinner-grow text-success" role="status"><span class="sr-only">Loading...</span> </div>   <div class="spinner-grow text-danger" role="status"><span class="sr-only">Loading...</span> </div>  <div class="spinner-grow text-warning" role="status">  <span class="sr-only">Loading...</span> </div>',
+            css: {
+                backgroundColor: 'transparent',
+                border: '0',
+
+            },
+
+
+        });
+
+    }
+
+    $(document).ready(function () {
+        Block_UI();
+        setTimeout($.unblockUI, 400);
+
+    });
+
+    function solo_numeros(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key);
+        letras_validas = "1234567890";
+        if (letras_validas.indexOf(tecla) === -1) {
+            return false;
+        }
+    }
+
+    function solo_digitos(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key);
+        letras_validas = "1234567890.";
+        if (letras_validas.indexOf(tecla) === -1) {
+            return false;
+        }
+    }
+
+    function solo_letras(e) {
+        key = e.keyCode || e.which;
+        tecla = String.fromCharCode(key);
+        letras_validas = "abcdefghijklmnopqrstuwxvyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+        if (letras_validas.indexOf(tecla) === -1) {
+            return false;
+        }
+    }
+</script>
+{% block script %}{% endblock %}
+
+</body>
+
+</html>

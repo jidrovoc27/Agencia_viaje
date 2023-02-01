@@ -1,0 +1,15 @@
+<input type="hidden" name="peticion" value="filtro_reporte">
+{% for field in form %}
+
+    <div class="input-group input-group-static my-3  ">
+        {{ field.errors }} {{ field.label_tag }} {{ field }} {% if field.help_text %}
+        <small id="help"
+               class="form-text text-muted">{{ field.help_text|safe }}</small> {% endif %}
+    </div>
+
+{% endfor %}
+
+
+<div class="input-group input-group-static my-3  content-left">
+    <button type="submit" class="btn btn-success">Generar reporte</button>
+</div>

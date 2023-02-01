@@ -1,0 +1,8 @@
+{% csrf_token %} {% for field in form %}
+
+    <div class="form-group  col-md-12 mt-3">
+
+        {{ field.errors }} {{ field.label_tag }} {{ field }} {% if field.help_text %}
+        <small id="help" class="form-text text-muted">{{ field.help_text|safe }}</small> {% endif %}
+    </div>
+{% endfor %}

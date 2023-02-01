@@ -1,0 +1,66 @@
+{% extends 'baseapp.html' %}
+{% block contenido %}
+    <div class="mx-auto col-lg-8 col-md-10 ">
+
+        <div class="card ">
+            <div class="card-body ">
+                <h5 class="font-weight-bolder">Restablecer contraseña</h5>
+
+                <form class="form" role="form" autocomplete="off" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+
+                        {% if not field.auto_id == 'id_fecha_cita' %}
+                            <div class="input-group input-group-static my-3  ">
+                                {{ field.errors }} {{ field.label_tag }} {{ field }} {% if field.help_text %}
+                                <small id="help"
+                                       class="form-text text-muted">{{ field.help_text|safe }}</small> {% endif %}
+                            </div>
+
+                        {% else %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                <div class="input-group date" id="{{ field.auto_id }}" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input"
+                                           data-target="#{{ field.auto_id }}"
+                                           id="{{ field.auto_id }}" name="{{ field.name }}"
+                                           value="{{ field.initial|date:'d-m-Y' }}">
+                                    <div class="input-group-append" data-target="#{{ field.auto_id }}"
+                                         data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+
+
+
+
+
+
+
+                    {% endfor %}
+                    <div class="m-t-20 text-center">
+                        <a type="button" class="btn btn-danger submit-btn" href="javascript:history.back()">Cancelar</a>
+                        <button type="submit" class="btn btn-primary submit-btn">Cambiar Contraseña</button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+        <br>
+
+    </div>
+
+{% endblock %}
+
+
+{% block script %}
+
+
+{% endblock %}
+

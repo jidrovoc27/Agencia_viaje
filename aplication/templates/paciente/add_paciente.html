@@ -1,0 +1,131 @@
+{% extends 'formularioBase.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+{% block contenido_extra %}
+
+{% endblock %}
+{% block lista_de_items_many_to_many %}
+{% endblock %}
+{% block titulo %}{{ titulo_formulario }}{% endblock %}
+{% block class_extra_card_formulario %}col-lg-8 col-md-10{% endblock %}
+{% block inputs_extras %}
+    <input type="hidden" name="peticion" value="{{ peticion }}">
+{% endblock %}
+
+{% block news_inputs_form %}
+
+{% endblock %}
+{% block nombre_boton_submit %}Guardar{% endblock %}
+{% block location_href_destino %}{% url 'pacientes' %}{% endblock %}
+{% block botones_extras %}{% endblock %}
+
+{% block modals %}
+    <!-- Modal -->
+
+{% endblock %}
+
+
+
+
+{% block js %}
+
+   <script>
+
+        var mask = IMask(document.getElementById('id_telefono_movil'), { mask: '00 000 0000'});
+        var mask = IMask(document.getElementById('id_telefono_convencional'), { mask: '000 000 0000'});
+    </script>
+
+
+    <script>
+        var opciones = {
+            strict: true,              // va a validar siempre, aunque la cantidad de caracteres no sea 10 ni 13
+            events: "change",          // evento que va a disparar la validación
+            the_classes: "invalid",    // clase que se va a agregar al nodo en el que se realiza la validación
+            onValid: function () {
+
+                if ($("#id_cedula").val().length == 10) {
+                    $.ajax({
+                        type: "GET",
+                        url: {{request.path}},
+                        dataType: "json",
+                        data: {
+                            'peticion': 'validar_cedula',
+                            'cedula': $("#id_cedula").val(),
+                        },
+                        success: function (data) {
+                            if (data.respuesta === true) {
+                                mensajeDanger(data.mensaje)
+                            }
+                        },
+                        error: function () {
+                            alert("Error de conexión.");
+                        },
+
+                    });
+                }
+
+            },   // callback cuando la cédula es correcta.
+            onInvalid: function () {
+                if ($("#id_cedula").val().length == 10) {
+                    mensajeWarning("cédula es incorrecta.");
+
+                }
+
+            }  // callback cuando la cédula es incorrecta.
+        };
+
+        $("#id_cedula").validarCedulaEC(opciones);
+
+    </script>
+
+    <script>
+
+        function mensajeSuccess(mensaje) {
+            Swal.fire('', mensaje, 'success')
+        }
+
+        function mensajeWarning(mensaje) {
+            Swal.fire('', mensaje, 'warning')
+        }
+
+        function mensajeDanger(mensaje) {
+            Swal.fire('', mensaje, 'error')
+        }
+
+        $(function () {
+
+            $('#id_email').on('blur', function () {
+                email = $("#id_email").val()
+                if (email.length > 0) {
+
+
+                    $.ajax({
+                        type: "GET",
+                        url: {{request.path}},
+                        dataType: "json",
+                        data: {
+                            'peticion': 'validar_email',
+                            'email': email,
+                        },
+                        success: function (data) {
+                            if (data.respuesta === true) {
+                                mensajeDanger(data.mensaje)
+                            } else {
+
+                            }
+                        },
+                        error: function () {
+                            alert("Error de conexión.");
+                        },
+
+                    });
+                }
+            });
+        });
+    </script>
+
+
+{% endblock %}
+

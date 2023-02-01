@@ -1,0 +1,45 @@
+{% extends 'baseapp.html' %}
+{% load static %}
+{% block head %}
+    <script>
+        function mostrarModal() {
+            $('.panelbody').html(data.data);
+            $('#itemspanel .paneltitle').html(text);
+            $("#itemspanel").modal({backdrop: 'static', width: width, height: height}).modal('show');
+        }
+    </script>
+{% endblock %}
+{% block contenido %}
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 mt-3 border-radius-xl bg-white" style="margin-top: -120%">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page"
+                           href="?peticion=historial_clinico&id={{ paciente_id }}">Datos del Paciente</a>
+                    </li>
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link" href="#">Exploración física</a>#}
+{#                    </li>#}
+                    <li class="nav-item">
+                        <a class="nav-link" href="?peticion=submenu_documentos&id={{ paciente_id }}">Documentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?peticion=submenu_odontograma_general&id={{ paciente_id }}">Odontograma
+                            general</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="?peticion=submenu_consultasrealizadas&id={{ paciente_id }}">Consultas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?peticion=submenu_tratamientos&id={{ paciente_id }}">Tratamientos</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </nav>
+    {% block subbody %}
+    {% endblock %}
+{% endblock %}

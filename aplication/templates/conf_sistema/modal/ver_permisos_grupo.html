@@ -1,0 +1,10 @@
+<ul class="list-group">
+    <li class="list-group-item list-group-item-action  active" aria-current="true">Grupo: {{ grupo }}</li>
+    {% for foo in grupo.permissions.all %}
+
+        <li href="javascript:;" class="list-group-item list-group-item-action ">{{ forloop.counter }}. {{ foo }}</li>
+    {% empty %}
+         <li href="javascript:;" class="list-group-item list-group-item-action ">No tiene permisos asignados</li>
+
+    {% endfor %}
+</ul>

@@ -1,0 +1,39 @@
+{% extends 'formularioBase.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+{% block contenido_extra %}
+
+{% endblock %}
+{% block lista_de_items_many_to_many %}
+{% endblock %}
+{% block titulo %}{{ titulo_formulario }}{% endblock %}
+{% block class_extra_card_formulario %}col-lg-8 col-md-10{% endblock %}
+{% block inputs_extras %}
+    <input type="hidden" name="peticion" value="{{ peticion }}">
+{% endblock %}
+
+{% block news_inputs_form %}
+
+{% endblock %}
+{% block nombre_boton_submit %}Guardar{% endblock %}
+{% block location_href_destino %}{% url 'agendar_cita' %}{% endblock %}
+{% block botones_extras %}{% endblock %}
+
+{% block modals %}
+    <!-- Modal -->
+
+{% endblock %}
+
+
+
+
+{% block js %}
+
+   <script>
+
+    </script>
+
+{% endblock %}
+

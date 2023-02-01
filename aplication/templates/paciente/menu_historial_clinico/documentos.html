@@ -1,0 +1,156 @@
+{% extends 'paciente/historial_clinico.html' %}
+{% block head %}
+    <script>
+        function mostrarModal(id) {
+            $.ajax({
+                type: "GET",
+                url: "/pacientes",
+                data: {
+                    'peticion': 'add_documento',
+                    'paciente_id': id
+                },
+                success: function (data) {
+                    $.unblockUI();
+                    if (data.result === true) {
+                        $('.panelbody').html(data.data);
+                        $('#itemspanel .paneltitle').html("Subir");
+                        $("#itemspanel").modal({backdrop: 'static', width: '500px', height: '900px'}).modal('show');
+                    } else {
+                        smoke.alert(data.mensaje);
+                    }
+                },
+                error: function () {
+                    $.unblockUI();
+                    smoke.alert("Error de conexión.");
+                },
+                dataType: "json"
+            });
+        }
+    </script>
+{% endblock %}
+{% block subbody %}
+    <div class="container-fluid py-1 px-5">
+        <div class="col-md-12 mb-lg-0 mb-4 ">
+            <div class="position-relative  card mt-1 ">
+                <div class="card-header pb-0 p-3 ">
+                    <div class="row ">
+                        <div class="col-6 d-flex align-items-center">
+                            <h6 class="mb-0">{{ titulo_tabla }}</h6>
+                        </div>
+
+                    </div>
+                </div>
+                <div style="margin-left: 15px"><a class="btn bg-gradient-info btn-sm" onclick="mostrarModal({{ paciente_id }})" id="add"
+                                                  type="button"
+                                                  title="Next">Adicionar</a></div>
+                <div class="card-body p-3">
+                    <div class="row">
+
+                        <div class="table-responsive-lg">
+                            <table class="table table-striped table-hover align-items-center mb-0 ">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolde text-center" style="text-align:center">N°.
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="text-align:center">
+                                        Nombre
+                                    </th>
+
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder" style="text-align:center">
+                                        Archivo
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for fila in page_obj %}
+                                    <tr>
+                                        <td class="text-uppercase text-secondary text-xxs font-weight-bolder text-center">{{ forloop.counter }}</td>
+                                        <td class="text-xs" data-title="Fecha" style="text-align:center">
+                                            <h6 class="mb-0 text-xs">{{ fila.nombre|default:'' }}</h6>
+                                        </td>
+
+                                        <td class="text-xs text-center" data-title="Fecha" style="text-align:center">
+                                            <h6 class="mb-0 text-xs"><a href="/media/{{ fila.archivo }}">{{ fila.archivo|default:'' }}</a> </h6>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="10"
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolde text-center">
+                                            No
+                                            existen registro
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-end mb-3 ">
+                    <div class="pagination-container justify-content-center">
+                        <ul class="pagination pagination-secondary">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="/pacientes/?peticion=submenu_documentos&id={{ paciente_id }}&page={{ page_obj.previous_page_number }}"
+                                       aria-label="Previous"><span
+                                            aria-hidden="true"><span
+                                            class="material-icons">keyboard_arrow_left</span></span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% for i in page_obj.paginator.page_range %}
+                                {% if i == page_obj.number %}
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">{{ i }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item ">
+                                        <a class="page-link"
+                                           href="/pacientes/?peticion=submenu_documentos&id={{ paciente_id }}&page={{ i }}">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="/pacientes/?peticion=submenu_documentos&id={{ paciente_id }}&page={{ page_obj.next_page_number }}"
+                                       aria-label="Next"> <span aria-hidden="true"><span
+                                            class="material-icons">keyboard_arrow_right</span></span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="modal" role="dialog" id="itemspanel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4><i class="fa fa-list"></i> <b class="paneltitle">FORMULARIO MODAL</b></h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal form-modal" autocomplete="off" method="post"
+                          enctype="multipart/form-data" action="{{ request.path }}">
+                        {% csrf_token %}
+                        <div class="row-fluid panelbody">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

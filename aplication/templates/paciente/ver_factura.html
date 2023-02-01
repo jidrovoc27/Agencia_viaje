@@ -1,0 +1,126 @@
+{% extends 'baseapp.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock %}
+{% block contenido %}
+
+    <div class="col-md-12 mb-lg-0 mb-4 ">
+        <div class="position-relative  card mt-1 ">
+            <div class="card-header pb-0 p-3 ">
+                <div class="row ">
+                    <div class="col-6 d-flex align-items-center">
+                        <h6 class="mb-0">{{ titulo_tabla }}</h6>
+                    </div>
+                    <div class="col-6 text-end">
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-3">
+                <div class="row">
+
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-header">
+                                   <strong>Milagro - Ecuador</strong><br>
+                                Fecha:<strong>{{ factura.obtener_ultima_fecha_abonada.fecha_creacion|date:"d-m-Y" }}</strong><br>
+                                Especialista: {{factura.doctor| upper| capfirst}}
+
+
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-4">
+
+                                </div>
+
+                                <div class="table-responsive-sm">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th class="center">#</th>
+                                            <th>Item</th>
+                                            <th class="right">Tratamiento</th>
+                                            <th class="center">Cantidad</th>
+                                            <th class="right">Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for foo in factura.tratamientos.all %}
+                                            <tr>
+                                                <td class="center">{{ forloop.counter }}</td>
+                                                <td class="left strong">{{ foo.nombre }}</td>
+
+
+                                                <td class="right">${{ foo.costo |floatformat:2 }}</td>
+                                                <td class="center">1</td>
+                                                <td class="right">${{ foo.costo |floatformat:2 }}</td>
+                                            </tr>
+
+                                        {% endfor %}
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-5">
+
+                                    </div>
+
+                                    <div class="col-lg-4 col-sm-5 ml-auto">
+                                        <table class="table table-clear">
+                                            <tbody>
+                                            <tr>
+                                                <td class="left">
+                                                    <strong>Subtotal</strong>
+                                                </td>
+                                                <td class="right">${{ factura.obtener_subtotal|floatformat:2 }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left">
+                                                    <strong>IVA (12%)</strong>
+                                                </td>
+                                                <td class="right">${{ factura.obtener_iva|floatformat:2 }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="left">
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td class="right">
+                                                    <strong>${{ factura.obtener_costo_total |floatformat:2 }}</strong>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-3 text-right">
+                                    <a href="javascript:history.back()" class="btn btn-primary">Regresar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block script %}
+    <script>
+
+
+    </script>
+
+{% endblock %}

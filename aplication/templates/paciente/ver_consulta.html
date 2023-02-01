@@ -1,0 +1,1482 @@
+{% extends 'baseapp.html' %}
+{% block contenido %}
+    <div class="mx-auto {% block class_extra_card_formulario %}{% endblock %} ">
+
+        <div class="card ">
+            <div class="card-body ">
+                <h5 class="font-weight-bolder">{{ consulta.paciente | upper }} - {{ consulta.fecha }}</h5>
+
+                <div class="">
+                    <h5 class="mt-3">DIAGNOSTICO PREVIO</h5>
+                    <div class="input-group input-group-static my-3  ">
+                        <textarea type="text" name="" class="form-control" readonly, disabled
+                                  placeholder="{{ consulta.diagnostico_previo }}"></textarea>
+                    </div>
+
+                    <hr class="dropdown-divider">
+
+                    <h5 class="mt-3">TRATAMIENTOS</h5>
+                    <div class="input-group input-group-static my-3  ">
+                        {% for foo in  consulta.tratamientos.all %}
+                            <input type="text" name="" class="form-control" readonly, disabled
+                                   value="{{ foo |upper }}">
+                        {% endfor %}
+
+                    </div>
+
+                    <hr class="dropdown-divider">
+
+                    <h5 class="mt-3">ODONTOGRAMA</h5>
+                    <div class="row container-fluid ">
+                        <div id="opcionesOdontograma">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label id="fractura" class="btn btn-success active"
+                                       style="background-color: rgb(103, 182, 103)">
+                                    <input type="radio" name="options" id="opcionObservacion " disabled
+                                           onclick="obtenerOpcion(this)" autocomplete="off">En observacion</label>
+                                <label id="restauracion" class="btn btn-secondary"
+                                       style="background-color: rgb(76, 77, 80)">
+                                    <input type="radio" name="options" id="opcionAusente" disabled
+                                           onclick="obtenerOpcion(this)"
+                                           autocomplete="off"> Diente ausente
+                                </label>
+                                <label id="extraccion" class="btn btn-primary"
+                                       style="background-color: rgb(47, 36, 199)">
+                                    <input type="radio" name="options" id="opcionRadicular" disabled
+                                           onclick="obtenerOpcion(this)" autocomplete="off"> Remanente Radicular
+                                </label>
+                                <label id="extraer" class="btn btn-warning"
+                                       style="background-color: rgb(112, 175, 194)">
+                                    <input type="radio" name="options" id="opcionCarie" disabled
+                                           onclick="obtenerOpcion(this)"
+                                           autocomplete="off"> Caries
+                                </label>
+                                <label id="puente" class="btn btn-primary" style="background-color: rgb(48, 47, 146)">
+                                    <input type="radio" name="options" id="opcionCorona" disabled
+                                           onclick="obtenerOpcion(this)"
+                                           autocomplete="off"> Corona
+                                </label>
+                                <label id="borrar" class="btn btn-dark" style="background-color: rgb(176, 201, 176)">
+                                    <input type="radio" name="options" id="opcionIncrustacion" disabled
+                                           onclick="obtenerOpcion(this)" autocomplete="off"> Incrustación
+                                </label>
+
+                                <label id="borrar" class="btn btn-dark" style="background-color: rgb(8, 112, 8)">
+                                    <input type="radio" name="options" id="opcionClavija" disabled
+                                           onclick="obtenerOpcion(this)"
+                                           autocomplete="off"> Clavija
+                                </label>
+
+                                <label id="borrar" class="btn btn-dark" style="background-color: rgb(204, 180, 143)">
+                                    <input type="radio" name="options" id="opcionFractura" disabled
+                                           onclick="obtenerOpcion(this)"
+                                           autocomplete="off"> Fractura
+                                </label>
+
+                            </div>
+
+                            <div class="btn-group" data-toggle="buttons">
+                                <label id="fractura" class="btn btn-danger  "
+                                       style="background-color: rgb(208, 150, 241)">
+                                    <input type="radio" name="options" id="opcionEndodoncia" disabled
+                                           onclick="obtenerOpcion(this)" autocomplete="off">Endodoncia</label>
+                                <label id="restauracion" class="btn btn-primary"
+                                       style="background-color: rgb(140, 67, 158)">
+                                    <input type="radio" name="options" id="opcionObturacion" disabled
+                                           onclick="obtenerOpcion(this)" autocomplete="off"> Obturación
+                                </label>
+                                <label id="extraccion" class="btn btn-warning"
+                                       style="background-color: rgb(216, 95, 210)">
+                                    <input type="radio" name="options" id="opcionIntrusion" disabled
+                                           onclick="obtenerOpcion(this)" autocomplete="off"> Intrusión
+                                </label>
+                                <label id="extraer" class="btn btn-warning"
+                                       style="background-color: rgb(233, 213, 102)">
+                                    <input type="radio" name="options" id="opcionExtrusion" disabled
+                                           onclick="obtenerOpcion(this)" autocomplete="off"> Extrusión
+                                </label>
+                                <label id="puente" class="btn btn-primary" style="background-color: rgb(230, 77, 77)">
+                                    <input type="radio" name="options" id="opcionProtesis" disabled
+                                           onclick="obtenerOpcion(this)"
+                                           autocomplete="off"> Protesis
+                                </label>
+                                <label id="borrar" class="btn btn-dark" style="background-color: rgb(83, 53, 28)">
+                                    <input type="radio" name="options" id="opcionImplante" disabled
+                                           onclick="obtenerOpcion(this)"
+                                           autocomplete="off"> Implante
+                                </label>
+
+                                <label id="borrar" class="btn btn-dark" style="background-color: rgb(221, 224, 48)">
+                                    <input type="radio" name="options" id="opcionOrtodoncia" disabled
+                                           onclick="obtenerOpcion(this)" autocomplete="off"> Ortodoncia
+                                </label>
+
+                                <label id="borrar" class="btn btn-dark" style="background-color: rgb(0, 0, 0)">
+                                    <input type="radio" name="options" id="opcionEdentulo" disabled
+                                           onclick="obtenerOpcion(this)"
+                                           autocomplete="off"> Edentulo
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col">
+                            <div class="" id="odontograma">
+                                <div id="svgselect" style="width: 610px; height: 230px;margin-top: 9%;margin-left: 9%;">
+                                    <!-- background-color:red -->
+                                    <svg version="1.1" height="100%" width="100%">
+                                        <g transform="scale(1.5)" id="gmain">
+                                            <g id="P18" href="">
+                                                <polygon onclick="obtenerIdPoligono(this)" class="figura"
+                                                         fill="{{ histoColores.TP18 }}"
+                                                         points="0,0 	20,0 	15,5 	5,5" stroke="navy"
+                                                         stroke-width="0.5" id="TP18" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)" class="figura"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP18 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP18" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)" class="figura"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP18 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP18" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)" class="figura"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP18 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP18" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)" class="figura"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP18 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP18" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">18
+                                                </text>
+                                            </g>
+                                            <g id="P17" transform="translate(25,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP17 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP17" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP17 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP17" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP17 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP17" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP17 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP17" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP17 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP17" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">17
+                                                </text>
+                                            </g>
+                                            <g id="P16" transform="translate(50,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP16 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP16" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP16 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP16" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP16 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP16" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP16 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP16" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP16 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP16" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">16
+                                                </text>
+                                            </g>
+                                            <g id="P15" transform="translate(75,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP15 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP15" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP15 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP15" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP15 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP15" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP15 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP15" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP15 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP15" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">15
+                                                </text>
+                                            </g>
+                                            <g id="P14" transform="translate(100,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP14 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP14" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP14 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP14" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP14 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP14" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP14 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP14" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP14 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP14" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">14
+                                                </text>
+                                            </g>
+                                            <g id="P13" transform="translate(125,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP13 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP13" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP13 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP13" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP13 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP13" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP13 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP13" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP13 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP13" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">13
+                                                </text>
+                                            </g>
+                                            <g id="P12" transform="translate(150,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP12 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP12" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP12 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP12" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP12 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP12" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP12 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP12" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP12 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP12" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">12
+                                                </text>
+                                            </g>
+                                            <g id="P11" transform="translate(175,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP11 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP11" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP11 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP11" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP11 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP11" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP11 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP11" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP11 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP11" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">11
+                                                </text>
+                                            </g>
+
+                                            <!-- Izquierda segunda fila -->
+
+                                            <g id="P55" transform="translate(75,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP55 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP55" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP55 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP55" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP55 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP55" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP55 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP55" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP55 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP55" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">55
+                                                </text>
+                                            </g>
+                                            <g id="P54" transform="translate(100,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP54 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP54" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP54 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP54" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP54 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP54" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP54 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP54" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP54 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP54" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">54
+                                                </text>
+                                            </g>
+                                            <g id="P53" transform="translate(125,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP53 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP53" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP53 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP53" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP53 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP53" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP53 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP53" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP53 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP53" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">53
+                                                </text>
+                                            </g>
+                                            <g id="P52" transform="translate(150,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP52 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP52" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP52 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP52" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP52 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP52" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP52 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP52" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP52 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP52" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">52
+                                                </text>
+                                            </g>
+                                            <g id="P51" transform="translate(175,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP51 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP51" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP51 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP51" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP51 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP51" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP51 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP51" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP51 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP51" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">51
+                                                </text>
+                                            </g>
+
+                                            <!-- Izquierda tercer fila -->
+
+                                            <g id="P85" transform="translate(75,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP85 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP85" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP85 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP85" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP85 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP85" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP85 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP85" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP85 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP85" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">85
+                                                </text>
+                                            </g>
+                                            <g id="P84" transform="translate(100,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP84 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP84" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP84 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP84" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP84 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP84" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP84 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP84" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP84 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP84" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">84
+                                                </text>
+                                            </g>
+                                            <g id="P83" transform="translate(125,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP83 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP83" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP83 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP83" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP83 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP83" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP83 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP83" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP83 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP83" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">83
+                                                </text>
+                                            </g>
+                                            <g id="P82" transform="translate(150,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP82 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP82" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP82 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP82" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP82 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP82" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP82 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP82" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP82 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP82" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">82
+                                                </text>
+                                            </g>
+                                            <g id="P81" transform="translate(175,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP81 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP81" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP81 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP81" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP81 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP81" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP81 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP81" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP81 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP81" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">81
+                                                </text>
+                                            </g>
+
+                                            <!-- Izquierda cuarta fila -->
+
+                                            <g id="P48" transform="translate(0,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP48 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP48" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP48 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP48" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP48 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP48" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP48 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP48" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP48 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP48" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">48
+                                                </text>
+                                            </g>
+                                            <g id="P47" transform="translate(25,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP47 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP47" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP47 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP47" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP47 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP47" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP47 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP47" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP47 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP47" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">47
+                                                </text>
+                                            </g>
+                                            <g id="P46" transform="translate(50,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP46 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP46" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP46 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP46" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP46 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP46" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP46 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP46" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP46 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP46" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">46
+                                                </text>
+                                            </g>
+                                            <g id="P45" transform="translate(75,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP45 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP45" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP45 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP45" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP45 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP45" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP45 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP45" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP45 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP45" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">45
+                                                </text>
+                                            </g>
+                                            <g id="P44" transform="translate(100,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP44 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP44" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP44 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP44" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP44 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP44" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP44 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP44" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP44 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP44" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">44
+                                                </text>
+                                            </g>
+                                            <g id="P43" transform="translate(125,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP43 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP43" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP43 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP43" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP43 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP43" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP43 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP43" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP43 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP43" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">43
+                                                </text>
+                                            </g>
+                                            <g id="P42" transform="translate(150,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP42 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP42" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP42 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP42" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP42 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP42" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP42 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP42" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP42 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP42" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">42
+                                                </text>
+                                            </g>
+                                            <g id="P41" transform="translate(175,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP41 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP41" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP41 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP41" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP41 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP41" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP41 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP41" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP41 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP41" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">41
+                                                </text>
+                                            </g>
+
+                                            <!-- Derecha primer fila -->
+
+                                            <g id="P21" transform="translate(210,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP21 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP21" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP21 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP21" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP21 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP21" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP21 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP21" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP21 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP21" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">21
+                                                </text>
+                                            </g>
+                                            <g id="P22" transform="translate(235,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP22 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP22" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP22 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP22" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP22 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP22" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP22 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP22" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP22 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP22" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">22
+                                                </text>
+                                            </g>
+                                            <g id="P23" transform="translate(260,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP23 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP23" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP23 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP23" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP23 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP23" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP23 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP23" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP23 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP23" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">23
+                                                </text>
+                                            </g>
+                                            <g id="P24" transform="translate(285,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP24 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP24" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP24 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP24" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP24 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP24" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP24 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP24" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP24 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP24" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">24
+                                                </text>
+                                            </g>
+                                            <g id="P25" transform="translate(310,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP25 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP25" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP25 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP25" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP25 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP25" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP25 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP25" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP25 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP25" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">25
+                                                </text>
+                                            </g>
+                                            <g id="P26" transform="translate(335,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP26 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP26" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP26 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP26" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP26 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP26" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP26 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP26" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP26 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP26" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">26
+                                                </text>
+                                            </g>
+                                            <g id="P27" transform="translate(360,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP27 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP27" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP27 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP27" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP27 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP27" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP27 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP27" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP27 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP27" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">27
+                                                </text>
+                                            </g>
+                                            <g id="P28" transform="translate(385,0)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP28 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP28" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP28 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP28" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP28 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP28" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP28 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP28" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP28 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP28" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">28
+                                                </text>
+                                            </g>
+
+                                            <!-- Derecha segunda fila -->
+
+                                            <g id="P61" transform="translate(210,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP61 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP61" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP61 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP61" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP61 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP61" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP61 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP61" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP61 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP61" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">61
+                                                </text>
+                                            </g>
+                                            <g id="P62" transform="translate(235,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP62 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP62" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP62 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP62" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP62 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP62" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP62 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP62" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP62 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP62" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">62
+                                                </text>
+                                            </g>
+                                            <g id="P63" transform="translate(260,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP63 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP63" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP63 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP63" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP63 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP63" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP63 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP63" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP63 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP63" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">63
+                                                </text>
+                                            </g>
+                                            <g id="P64" transform="translate(285,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP64 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP64" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP64 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP64" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP64 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP64" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP64 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP64" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP64 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP64" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">64
+                                                </text>
+                                            </g>
+                                            <g id="P65" transform="translate(310,40)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP65 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP65" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP65 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP65" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP65 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP65" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP65 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP65" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP65 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP65" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">65
+                                                </text>
+                                            </g>
+
+                                            <!-- Derecha tercer fila -->
+
+                                            <g id="P71" transform="translate(210,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP71 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP71" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP71 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP71" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP71 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP71" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP71 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP71" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP71 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP71" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">71
+                                                </text>
+                                            </g>
+                                            <g id="P72" transform="translate(235,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP72 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP72" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP72 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP72" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP72 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP72" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP72 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP72" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP72 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP72" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">72
+                                                </text>
+                                            </g>
+                                            <g id="P73" transform="translate(260,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP73 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP73" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP73 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP73" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP73 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP73" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP73 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP73" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP73 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP73" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">73
+                                                </text>
+                                            </g>
+                                            <g id="P74" transform="translate(285,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP74 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP74" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP74 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP74" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP74 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP74" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP74 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP74" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP74 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP74" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">74
+                                                </text>
+                                            </g>
+                                            <g id="P75" transform="translate(310,80)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP75 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP75" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP75 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP75" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP75 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP75" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP75 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP75" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP75 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP75" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">75
+                                                </text>
+                                            </g>
+
+                                            <!-- Derecha cuarta fila -->
+
+                                            <g id="P31" transform="translate(210,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP31 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP31" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP31 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP31" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP31 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP31" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP31 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP31" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP31 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP31" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">31
+                                                </text>
+                                            </g>
+                                            <g id="P32" transform="translate(235,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP32 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP32" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP32 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP32" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP32 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP32" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP32 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP32" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP32 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP32" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">32
+                                                </text>
+                                            </g>
+                                            <g id="P33" transform="translate(260,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP33 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP33" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP33 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP33" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP33 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP33" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP33 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP33" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP33 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP33" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">33
+                                                </text>
+                                            </g>
+                                            <g id="P34" transform="translate(285,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP34 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP34" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP34 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP34" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP34 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP34" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP34 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP34" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP34 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP34" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">34
+                                                </text>
+                                            </g>
+                                            <g id="P35" transform="translate(310,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP35 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP35" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP35 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP35" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP35 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP35" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP35 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP35" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP35 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP35" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">35
+                                                </text>
+                                            </g>
+                                            <g id="P36" transform="translate(335,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP36 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP36" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP36 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP36" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP36 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP36" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP36 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP36" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP36 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP36" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">36
+                                                </text>
+                                            </g>
+                                            <g id="P37" transform="translate(360,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP37 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP37" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP37 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP37" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP37 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP37" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP37 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP37" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP37 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP37" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">37
+                                                </text>
+                                            </g>
+                                            <g id="P38" transform="translate(385,120)">
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,5 	15,5 	15,15 	5,15"
+                                                         fill="{{ histoColores.CP38 }}" stroke="navy" stroke-width="0.5"
+                                                         id="CP38" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	20,0 	15,5 	5,5"
+                                                         fill="{{ histoColores.TP38 }}" stroke="navy" stroke-width="0.5"
+                                                         id="TP38" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="5,15 	15,15 	20,20 	0,20"
+                                                         fill="{{ histoColores.BP38 }}" stroke="navy" stroke-width="0.5"
+                                                         id="BP38" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="15,5 	20,0 	20,20 	15,15"
+                                                         fill="{{ histoColores.RP38 }}" stroke="navy" stroke-width="0.5"
+                                                         id="RP38" opacity="1"></polygon>
+                                                <polygon onclick="obtenerIdPoligono(this)"
+                                                         points="0,0 	5,5 	5,15 	0,20"
+                                                         fill="{{ histoColores.LP38 }}" stroke="navy" stroke-width="0.5"
+                                                         id="LP38" opacity="1"></polygon>
+                                                <text x="6" y="30" stroke="navy" fill="navy" stroke-width="0.1"
+                                                      style="font-size: 6pt;font-weight:normal">38
+                                                </text>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+
+                    <br>
+                    <hr class="dropdown-divider">
+                    <h5 class="mt-3">OBSERVACIÓN</h5>
+                    <div class="input-group input-group-static my-3  ">
+                        <textarea type="text" name="" class="form-control" readonly, disabled
+                                  placeholder="{{ consulta.observacion }}"></textarea>
+                    </div>
+
+                    <div class="row">
+                                  <a href="javascript:history.back()" name="button" class="btn btn-danger m-0">Regresar</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <br>
+
+    </div>
+{% endblock %}
